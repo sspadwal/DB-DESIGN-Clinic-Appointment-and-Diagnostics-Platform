@@ -1,0 +1,63 @@
+patient [icon: user, color: blue] {
+  id SERIAL pk
+  name VARCHAR
+  phone VARCHAR 
+  disease VARCHAR
+}
+
+specility [icon:doctor,color:red]{
+  id SERIAL pk 
+  degree VARCHAR
+}
+
+doctor [icon:doctor,color:pink]{
+  id SERIAL pk
+  name VARCHAR
+  specility_id INT fk
+}
+
+appointment [icon:doctor,color:red]{
+  id SERIAL pk
+  patient_id INT fk
+  doctor_id INT fk
+  time TIMESTAMP 
+  status enum('pending','done','canceled')
+}
+
+
+consultation [icon:doctor,color:green]{
+  id SERIAL pk
+  appointment_patientid INT fk
+  appointment_doctor_id INT fk
+  notes VARCHAR 
+}
+
+
+
+test [icon:doctor,color:pink] {
+  id SERIAL pk
+  consultation_id INT fk
+  testname VARCHAR
+  }
+
+  report [icon:doctor,color:black]{
+    id SERIAL pk 
+    test_id INT fk 
+    main_disease VARCHAR
+  }
+
+  payment [icon:money,color:white]{
+    id SERIAL pk 
+    method enum('cash','net banking','upi')
+    amount DECIMAL
+    consultation_id INT fk
+  }
+  
+  
+doctor.specility_id > specility.id
+appointment.patient_id > patient.id
+appointment.doctor_id > doctor.id
+consultation.appointment_id > appointment.id
+test.consultation_id > consultation.id
+report.test_id > test.id
+payment.consultation_id > consultation.id
